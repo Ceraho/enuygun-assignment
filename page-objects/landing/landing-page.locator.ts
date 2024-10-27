@@ -1,29 +1,29 @@
 import { Locator, Page } from "@playwright/test";
 
 export class LandingPageLocator {
-    cookiesModal: Locator;
-    rejectCookiesButton: Locator;
-    countryListDropdownMenu: Locator;
-    countryList: Locator;
-    countryTurkeyItem: Locator;
-    selectCountryButton: Locator;
-    logInDropdownMenu: Locator;
-    logInButton: Locator;
-    myAccountButton: Locator;
-    SearchBoxInputField: Locator;
-    searchButton: Locator;
+    roundTripRadioButton: Locator;
+    departureDateInputField: Locator;
+    returnDateInputField: Locator;
+    calendarDateOption: (date: string) => Locator;
+    selectOriginCityField: Locator;
+    selectCityOption: (city: string) => Locator;
+    selectDepartureCityField: Locator;
+    submitSearchButton: Locator;
+    loginButton: Locator;
 
     constructor(page: Page) {
-        this.cookiesModal = page.locator("#onetrust-button-group-parent");
-        this.rejectCookiesButton = page.locator("#onetrust-reject-all-handler");
-        this.countryListDropdownMenu = page.locator("#header > header > section.header-top-nav > div > div");
-        this.countryList = page.locator("#header > header > section.header-top-nav > div > div > div.country-list-dropdown-wrapper > section > li");
-        this.countryTurkeyItem = page.locator("//*[@id='header']/header/section[1]/div/div/div[2]/section/ul/li[1]/p");
-        this.selectCountryButton = page.locator("#header > header > section.header-top-nav > div > div > div.country-list-dropdown-wrapper > button");
-        this.logInDropdownMenu = page.locator("div.account-nav-item.user-login-container");
-        this.logInButton = page.locator("div.login-button");
-        this.myAccountButton = page.locator("#account-navigation-container > div > div.account-nav-item.user-login-container");
-        this.SearchBoxInputField = page.locator("[data-testid='suggestion']");
-        this.searchButton = page.locator("[data-testid='search-icon']");
+        this.roundTripRadioButton = page.getByTestId("search-round-trip-label").locator("span");
+        this.selectOriginCityField = page.getByTestId("endesign-flight-origin-autosuggestion-input");
+        this.selectCityOption = (city: string): Locator => {
+            return page.getByRole("button", { name: city });
+        };
+        this.selectDepartureCityField = page.getByTestId("endesign-flight-destination-autosuggestion-input");
+        this.departureDateInputField = page.getByTestId('enuygun-homepage-flight-departureDate-datepicker-input');
+        this.returnDateInputField = page.getByTestId('enuygun-homepage-flight-returnDate-datepicker-input');
+        this.calendarDateOption = (date: string): Locator => {
+            return page.locator(`button[title="${date}"]`);
+        };
+        this.submitSearchButton = page.getByTestId("enuygun-homepage-flight-submitButton");
+        this.loginButton = page.getByTestId('membership-signin-dialog-open-button');
     }
 }

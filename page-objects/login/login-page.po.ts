@@ -2,33 +2,37 @@ import { Page, expect } from "@playwright/test";
 import { LoginPageLocator } from "./login-page.locator";
 
 export class LoginPagePageObject {
-    page: Page;
-    loginPageLocator: LoginPageLocator;
+  page: Page;
+  loginPageLocator: LoginPageLocator;
 
-    constructor(page: Page) {
-        this.page = page;
-        this.loginPageLocator = new LoginPageLocator(this.page);
-    }
+  constructor(page: Page) {
+    this.page = page;
+    this.loginPageLocator = new LoginPageLocator(this.page);
+  }
 
-    async setEmailField(emailText: string): Promise<void> {
-        await this.loginPageLocator.emailInput.fill(emailText);
-    }
+  async fillEmailField(email: string) {
+    await this.loginPageLocator.emailInputField.click();
+    await this.loginPageLocator.emailInputField.fill(email);
+  }
 
-    async setPasswordField(passwordText: string): Promise<void> {
-        await this.loginPageLocator.passwordInput.fill(passwordText);
-    }
+  async fillPasswordField(password: string) {
+    await this.loginPageLocator.passwordInputField.click();
+    await this.loginPageLocator.passwordInputField.fill(password);
+  }
 
-    async clickLogInButton(): Promise<void> {
-        await this.loginPageLocator.submitButton.click();
-    }
+  async clickSubmitButton() {
+    await this.loginPageLocator.submitButton.click();
+  }
 
-    async isLoginFailedMessageVisible(): Promise<void> {
-        await this.loginPageLocator.errorMessageModal.waitFor(
-            {
-                state: 'visible',
-                timeout: 10_000
-            }
-        );
-        await expect(this.loginPageLocator.errorMessageModal).toBeVisible();
-    }
+  async clickAccountDropddownButton() {
+    await this.loginPageLocator.accountDropddownButton.click();
+  }
+
+  async expectLoggedInUserAccountDropddownMenu() {
+   await expect(this.loginPageLocator.loggedInUserAccountDropddownMenu).toBeVisible();  
+  }
+
+  async clickSignUpButton() {
+    await this.loginPageLocator.signUpButton.click();
+  }
 }

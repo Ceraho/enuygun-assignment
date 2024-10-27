@@ -1,71 +1,52 @@
-import { Page, expect } from "@playwright/test";
+import { Page } from "@playwright/test";
 import { LandingPageLocator } from "./landing-page.locator";
-import axios from "axios";
 
 export class LandingPagePageObject {
-    page: Page;
-    landingPageLocator: LandingPageLocator;
+  page: Page;
+  landingPageLocator: LandingPageLocator;
 
-    constructor(page: Page) {
-        this.page = page;
-        this.landingPageLocator = new LandingPageLocator(this.page);
-    }
+  constructor(page: Page) {
+    this.page = page;
+    this.landingPageLocator = new LandingPageLocator(this.page);
+  }
 
-    async navigateToLandingPage(): Promise<void> {
-        await this.page.goto("https://www.trendyol.com/");
-    }
+  async navigateToLandingPage(): Promise<void> {
+    await this.page.goto("https://www.enuygun.com/");
+  }
 
-    async clickRejectAllCookiesButton(): Promise<void> {
-        // await this.landingPageLocator.cookiesModal.isVisible();
-        await this.landingPageLocator.rejectCookiesButton.waitFor(
-            {
-                state: 'visible',
-                timeout: 5_000
-            }
-        );
-        await this.landingPageLocator.rejectCookiesButton.click();
-    }
+  async clickRoundTrip(): Promise<void> {
+    await this.landingPageLocator.roundTripRadioButton.click();
+  }
 
-    async navigateToTurkeySite(): Promise<void> {
-        await this.landingPageLocator.countryListDropdownMenu.hover();
-        await this.landingPageLocator.countryList.click();
-        await this.landingPageLocator.countryTurkeyItem.click();
-        await this.landingPageLocator.selectCountryButton.click();
-    }
+  async clickDepartureDate(): Promise<void> {
+    await this.landingPageLocator.departureDateInputField.click();
+  }
 
-    async hoverMyAccountButton(): Promise<void> {
-        await this.landingPageLocator.logInDropdownMenu.hover();
-    }
+  async clickReturnDate(): Promise<void> {
+    await this.landingPageLocator.returnDateInputField.click();
+  }
 
-    async clickLoginButtonFromHeader(): Promise<void> {
-        await this.landingPageLocator.logInButton.click();
-    }
+  async setDate(date: string): Promise<void> {
+    await this.landingPageLocator.calendarDateOption(date).click();
+  }
 
-    async fillSearchField(input: string): Promise<void> {
-        await this.landingPageLocator.SearchBoxInputField.click();
-        await this.landingPageLocator.SearchBoxInputField.fill(input);
-    }
+  async clickSelectOriginCity(): Promise<void> {
+    await this.landingPageLocator.selectOriginCityField.click();
+  }
 
-    async enterSearchItem(): Promise<void> {
-        await this.page.keyboard.press('Enter');
-    }
+  async selectCity(city: string): Promise<void> {
+    await this.landingPageLocator.selectCityOption(city).click();
+  }
 
-    async clickSearchIcon(): Promise<void> {
-        await this.landingPageLocator.searchButton.click();
-    }
+  async clickSelectDestinationCity(): Promise<void> {
+    await this.landingPageLocator.selectDepartureCityField.click();
+  }
 
-    async myAccountButtonContainsText(text: string): Promise<void> {
-        await this.landingPageLocator.myAccountButton.waitFor(
-            {
-                state: 'visible',
-                timeout: 10_000
-            }
-        );
-        await expect(this.landingPageLocator.myAccountButton).toContainText(text);
-    }
+  async clickSubmitSearchButton() {
+    await this.landingPageLocator.submitSearchButton.click();
+  }
 
-    async returnItemsListFromApi() {
-        const response = await axios.get("https://www.omdbapi.com/?i=tt3896198&apikey=4686bcc2");
-        return response.data;
-    }
+  async clickLoginButton(): Promise<void> {
+    await this.landingPageLocator.loginButton.click();
+  }
 }
